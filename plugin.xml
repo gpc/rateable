@@ -1,0 +1,21 @@
+<plugin name='rateable' version='0.1' grailsVersion='1.1 &gt; *'>
+  <author>Matthew Taylor</author>
+  <authorEmail>matt.taylor@springsource.com</authorEmail>
+  <title>Rateable Plugin</title>
+  <description>\
+A plugin that adds a generic mechanism for rating domain objects.
+</description>
+  <documentation>http://grails.org/plugin/rateable</documentation>
+  <resources>
+    <resource>org.grails.rateable.RateableController</resource>
+    <resource>org.grails.rateable.Rating</resource>
+    <resource>org.grails.rateable.RatingLink</resource>
+    <resource>org.grails.rateable.TestDomain</resource>
+    <resource>org.grails.rateable.TestRater</resource>
+    <resource>org.grails.rateable.RateableTagLib</resource>
+  </resources>
+  <dependencies>
+    <plugin name='hibernate' version='1.1 &gt; *' />
+    <plugin name='yui' version='2.6.1 &gt; *' />
+  </dependencies>
+</plugin>
