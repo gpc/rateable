@@ -28,7 +28,8 @@ class RateableTagLib {
             <table class="ratingDisplay">
                 <tr>
             """
-            5.times {i ->
+            5.times {cnt ->
+                def i = cnt + 1
                 if (average >= i) {
                     out << '<td><div class="star on"><a></a></div></td>'
                 } else {
