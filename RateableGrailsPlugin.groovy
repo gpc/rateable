@@ -17,7 +17,7 @@
  
  class RateableGrailsPlugin {
     // the plugin version
-    def version = "0.2"
+    def version = "0.3"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.1 > *"
     // the other plugins this plugin depends on
@@ -50,19 +50,27 @@ A plugin that adds a generic mechanism for rating domain objects.
             if (Rateable.class.isAssignableFrom(domainClass.clazz)) {
                 domainClass.clazz.metaClass {
                     
-                    rate = { rater, starRating ->
+                    rate = { rater, BigInteger starRating ->
                         if (delegate.id == null) {
                             throw new RatingException("You must save the entity [${delegate}] before calling rate")
                         }
                         // try to find an existing rating to update
-                        def r = delegate.ratings.find {
-                            it.raterId == rater.id
-                        }
+						def instance = delegate
+                        def r = RatingLink.createCriteria().get {
+							projections { property "rating" }
+							rating {
+								eq 'raterId', rater.id
+							}
+							eq "ratingRef", instance.id
+                            eq "type", GrailsNameUtils.getPropertyName(instance.class)
+							cache true
+						}
+						
                         // if there is no existing value, create a new one
                         if (!r) {
                             r = new Rating(stars:starRating, raterId:rater.id, raterClass:rater.class.name)
                             if (!r.validate()) {
-                                throw new RatingException("Cannot create rating for args: [$rater, $starRating], they are invalid.")
+                                throw new RatingException("Cannot create rating for args: [$rater, $starRating], they are invalid. ")
                             }
                             r.save()
                             def link = new RatingLink(rating:r, ratingRef:delegate.id, type:GrailsNameUtils.getPropertyName(delegate.class))
@@ -92,11 +100,14 @@ A plugin that adds a generic mechanism for rating domain objects.
                     }
                     
                     getAverageRating = { ->
-                        if (delegate.id != null && delegate.ratings.size()) {
-                            delegate.ratings*.stars.sum() / delegate.ratings.size()
-                        } else {
-                            return 0
-                        }
+						def instance = delegate
+						return RatingLink.createCriteria().get {
+							rating {
+								projections { avg 'stars' }
+							}
+                            eq "type", GrailsNameUtils.getPropertyName(instance.class)								
+							cache true
+						}
                     }
                     
                     getTotalRatings = { ->

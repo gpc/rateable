@@ -29,6 +29,10 @@
          raterClass blank:false
          raterId min: 0L
      }
+
+	 static mapping = {
+		cache true
+	}
      
      String toString() {
          "$rater voted $stars"
