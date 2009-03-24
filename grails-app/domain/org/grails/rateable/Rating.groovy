@@ -15,7 +15,7 @@
  package org.grails.rateable 
  
  class Rating {
-     BigInteger stars
+     Double stars
      Date dateCreated
      Date lastUpdated
      Long raterId

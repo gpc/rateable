@@ -19,7 +19,7 @@ class RateableTagLib {
     def ratings = {attrs ->
         if (!attrs.bean) throw new RatingException("There must be a 'bean' domain object included in the ratings tag.")
         def bean = attrs.bean
-        def average = bean.averageRating
+        def average = bean.averageRating ?: 0
         def votes = bean.totalRatings
         def type = GrailsNameUtils.getPropertyName(bean.class)
 

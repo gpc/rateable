@@ -12,13 +12,16 @@ class RateableRatingsTests extends GroovyTestCase {
 		test.rate(r1, 4)
 		    .rate(r2, 2)		
 		
+		def stuff = new TestDomain(name:'stuff')
+		stuff.save()
+		stuff.rate(r1, 1)
+		     .rate(r2, 2)
 		
 		assertEquals 3, test.averageRating
+		assertEquals 1.5, stuff.averageRating
 	}
 	
 	/*
-	 * Uncomment once getTopRated is implemented
-	
 	void testGetTopRated() {
 		
 		def r1 = new TestRater(name:"fred").save()
@@ -77,6 +80,7 @@ class RateableRatingsTests extends GroovyTestCase {
 		assertEquals "gone", topRated[2].name
 		assertEquals "bold", topRated[3].name						
 		
-	}*/
+	}
+	*/
 
 }

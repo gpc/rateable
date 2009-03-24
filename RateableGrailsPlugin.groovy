@@ -17,7 +17,7 @@
  
  class RateableGrailsPlugin {
     // the plugin version
-    def version = "0.3"
+    def version = "0.4"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.1 > *"
     // the other plugins this plugin depends on
@@ -50,7 +50,7 @@ A plugin that adds a generic mechanism for rating domain objects.
             if (Rateable.class.isAssignableFrom(domainClass.clazz)) {
                 domainClass.clazz.metaClass {
                     
-                    rate = { rater, BigInteger starRating ->
+                    rate = { rater, Double starRating ->
                         if (delegate.id == null) {
                             throw new RatingException("You must save the entity [${delegate}] before calling rate")
                         }
@@ -101,13 +101,16 @@ A plugin that adds a generic mechanism for rating domain objects.
                     
                     getAverageRating = { ->
 						def instance = delegate
-						return RatingLink.createCriteria().get {
+						def result = RatingLink.createCriteria().get {
 							rating {
 								projections { avg 'stars' }
 							}
+							eq "ratingRef", instance.id
                             eq "type", GrailsNameUtils.getPropertyName(instance.class)								
 							cache true
 						}
+						println "average: $result"
+						result
                     }
                     
                     getTotalRatings = { ->
