@@ -109,7 +109,6 @@ A plugin that adds a generic mechanism for rating domain objects.
                             eq "type", GrailsNameUtils.getPropertyName(instance.class)								
 							cache true
 						}
-						println "average: $result"
 						result
                     }
                     
