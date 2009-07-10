@@ -1,4 +1,4 @@
-<plugin name='rateable' version='0.4' grailsVersion='1.1 &gt; *'>
+<plugin name='rateable' version='0.5' grailsVersion='1.1 &gt; *'>
   <author>Matthew Taylor</author>
   <authorEmail>matt.taylor@springsource.com</authorEmail>
   <title>Rateable Plugin</title>
@@ -17,6 +17,42 @@ A plugin that adds a generic mechanism for rating domain objects.
   </resources>
   <dependencies>
     <plugin name='hibernate' version='1.1 &gt; *' />
-    <plugin name='yui' version='2.6.1 &gt; *' />
+    <plugin name='yui' version='2.7.0.1 &gt; *' />
   </dependencies>
+  <behavior>
+    <method name='rate' artefact='Domain' type='org.grails.rateable.TestDomain'>
+      <description />
+      <argument type='java.lang.Object' />
+      <argument type='java.lang.Double' />
+    </method>
+    <method name='getRatings' artefact='Domain' type='org.grails.rateable.TestDomain'>
+      <description />
+    </method>
+    <method name='getAverageRating' artefact='Domain' type='org.grails.rateable.TestDomain'>
+      <description />
+    </method>
+    <method name='getTotalRatings' artefact='Domain' type='org.grails.rateable.TestDomain'>
+      <description />
+    </method>
+    <method name='userRating' artefact='Domain' type='org.grails.rateable.TestDomain'>
+      <description />
+      <argument type='java.lang.Object' />
+    </method>
+    <static-method name='listOrderByAverageRating' artefact='Domain' type='org.grails.rateable.TestDomain'>
+      <description />
+      <argument type='java.util.Map' />
+    </static-method>
+    <static-method name='countRated' artefact='Domain' type='org.grails.rateable.TestDomain'>
+      <description />
+    </static-method>
+    <property name='ratings' type='org.grails.rateable.TestDomain' artefact='Domain'>
+      <description />
+    </property>
+    <property name='averageRating' type='org.grails.rateable.TestDomain' artefact='Domain'>
+      <description />
+    </property>
+    <property name='totalRatings' type='org.grails.rateable.TestDomain' artefact='Domain'>
+      <description />
+    </property>
+  </behavior>
 </plugin>

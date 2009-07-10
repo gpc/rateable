@@ -14,16 +14,39 @@
  *   http://www.gnu.org/licenses/gpl.html
  */
 
+var rateables = new Array()
 var rating = {
     init: function() {
         rating.ratingform = YAHOO.util.Dom.get('rating')
         rating.ratingdiv = YAHOO.util.Dom.get('ratingdiv')
         rating.stardiv = document.createElement('div')
         rating.notifytext = YAHOO.util.Dom.get('notifytext')
-        rating.active = YAHOO.util.Dom.get('ratingIsActive').value
-        rating.average = rating.ratingform.title.split(".")
+		var activeInput = YAHOO.util.Dom.get('ratingIsActive')
+		if(activeInput!=null)
+        	rating.active = activeInput.value
+		else
+			rating.active=false
+
+		if(rating.ratingform!=null)	
+        	rating.average = rating.ratingform.title.split(".")
         rating.submitted = false
         rating.make_stardiv()
+
+		for(var i=1; i<rateables.length;i++) {
+	        rating.ratingform = YAHOO.util.Dom.get(rateables[i])
+	        rating.ratingdiv = YAHOO.util.Dom.get('ratingdiv')
+	        rating.stardiv = document.createElement('div')
+	        rating.notifytext = YAHOO.util.Dom.get('notifytext')
+			var activeInput = YAHOO.util.Dom.get('ratingIsActive')
+			if(activeInput!=null)
+	        	rating.active = activeInput.value
+			else
+				rating.active=false
+			if(rating.ratingform!=null)
+	        	rating.average = rating.ratingform.title.split(".")
+	        rating.submitted = false
+	        rating.make_stardiv()			
+		}
     },
 
     make_stardiv: function() {
@@ -51,7 +74,8 @@ var rating = {
                 YAHOO.util.Event.addListener(star, 'click', rating.submit_rating, i);
             }
         }
-        rating.ratingdiv.appendChild(rating.stardiv);
+		if(rating.ratingdiv!=null)
+        	rating.ratingdiv.appendChild(rating.stardiv);
         // show the average
         rating.reset_stars();
     },
@@ -71,7 +95,7 @@ var rating = {
 
         // if form is not submitted, the number of stars on depends on the
         // given average value
-        if (rating.submitted == false) {
+        if (rating.submitted == false && rating.average!=null) {
             var stars_on = rating.average[0];
             if (rating.average[1] >= 0)
                 stars_on = parseInt(rating.average[0]) + 1;
@@ -89,19 +113,21 @@ var rating = {
         // cycle trought 1..5 stars
         for (var i=1; i<=5; i++) {
             var star = YAHOO.util.Dom.get('star' + i);
-            var a = star.firstChild;
+			if(star!=null) {				
+	            var a = star.firstChild;
 
-            // first, reset all stars
-            YAHOO.util.Dom.removeClass(star, 'hover');
-            YAHOO.util.Dom.removeClass(star, 'on');
+	            // first, reset all stars
+	            YAHOO.util.Dom.removeClass(star, 'hover');
+	            YAHOO.util.Dom.removeClass(star, 'on');
 
-            // for every star that should be on, turn them on
-            if (i<=stars_on && !YAHOO.util.Dom.hasClass(star, 'on'))
-                YAHOO.util.Dom.addClass(star, 'on');
+	            // for every star that should be on, turn them on
+	            if (i<=stars_on && !YAHOO.util.Dom.hasClass(star, 'on'))
+	                YAHOO.util.Dom.addClass(star, 'on');
 
-            // and for the last one, set width if needed
-            if (i == stars_on)
-                YAHOO.util.Dom.setStyle(a, 'width', last_star_width);
+	            // and for the last one, set width if needed
+	            if (i == stars_on)
+	                YAHOO.util.Dom.setStyle(a, 'width', last_star_width);
+			}
         }
     },
 

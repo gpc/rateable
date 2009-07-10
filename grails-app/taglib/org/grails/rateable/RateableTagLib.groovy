@@ -22,6 +22,7 @@ class RateableTagLib {
         def average = bean.averageRating ?: 0
         def votes = bean.totalRatings
         def type = GrailsNameUtils.getPropertyName(bean.class)
+		def id = attrs.id ?: "rating"
 
         if (attrs.active == 'false') {
             out << """
@@ -45,10 +46,10 @@ class RateableTagLib {
             """
         } else {
             out << """
-            <div id="ratingdiv">
-                <form id="rating" action="${createLink(controller: 'rateable', action: 'rate', id: bean.id, params: [type: type, xhr: true])}" method="post" title="${bean.averageRating}">
+            <div id="${id}div">
+                <form id="${id}" action="${createLink(controller: 'rateable', action: 'rate', id: bean.id, params: [type: type, xhr: true])}" method="post" title="${bean.averageRating}">
                     <label for="id_rating">Rating:</label>
-                    <select name="rating" id="id_rating">
+                    <select name="${id}" id="id_${id}">
                         <option value="1">1 - Poor</option>
                         <option value="2">2 - Fair</option>
                         <option value="3">3 - Good</option>

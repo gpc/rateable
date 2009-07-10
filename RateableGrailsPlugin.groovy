@@ -17,11 +17,11 @@
  
  class RateableGrailsPlugin {
     // the plugin version
-    def version = "0.4"
+    def version = "0.5"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.1 > *"
     // the other plugins this plugin depends on
-    def dependsOn = [hibernate:"1.1 > *", yui:"2.6.1 > *"]
+    def dependsOn = [hibernate:"1.1 > *", yui:"2.7.0.1 > *"]
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
             "grails-app/views/error.gsp"
@@ -49,6 +49,44 @@ A plugin that adds a generic mechanism for rating domain objects.
         for (domainClass in application.domainClasses) {
             if (Rateable.class.isAssignableFrom(domainClass.clazz)) {
                 domainClass.clazz.metaClass {
+	
+					
+					'static' {
+						listOrderByAverageRating { Map params = [:] ->
+							if(params==null) params =[:]
+							def max = params.max ? params.max.toInteger() : 10
+							def offset = params.offset ? params.offset.toInteger(): 0
+							params.remove('offset')
+							params.remove('max')
+							def clazz = delegate
+							def type = GrailsNameUtils.getPropertyName(clazz)
+							if(params.cache==null) params.cache=true
+							def results = clazz.executeQuery("select r.ratingRef, avg(rating.stars) from RatingLink as r join r.rating rating where r.type='$type' group by r.ratingRef", [cache:true])
+							results = results.sort { it[1] }.reverse()
+							def queryList
+							def i = (max+offset)
+							if(results.size() >= i) {
+								queryList = results[offset..<i].collect{ it[0]}
+							}
+							else {
+								queryList = results[offset..-1].collect { it[0] }
+							}
+							clazz.findAllByIdInList( queryList, params).sort { rated ->
+								def entry = results.find { it[0] == rated.id } 
+								entry[1]
+							}.reverse()
+						}
+						countRated {->
+							def clazz = delegate
+							RatingLink.createCriteria().get {
+								projections {
+									countDistinct "ratingRef"
+								}
+								eq "type", GrailsNameUtils.getPropertyName(clazz)
+								cache true
+							}
+						}						
+					}
                     
                     rate = { rater, Double starRating ->
                         if (delegate.id == null) {
