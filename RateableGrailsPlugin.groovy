@@ -28,7 +28,7 @@
     ]
 
     def author = "Matthew Taylor"
-    def authorEmail = "matt.taylor@springsource.com"
+    def authorEmail = "matthew@g2one.com"
     def title = "Rateable Plugin"
     def description = '''\\
 A plugin that adds a generic mechanism for rating domain objects.
