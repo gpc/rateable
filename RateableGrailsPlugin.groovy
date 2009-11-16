@@ -17,7 +17,7 @@
  
  class RateableGrailsPlugin {
     // the plugin version
-    def version = "0.5"
+    def version = "0.6.1"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.1 > *"
     // the other plugins this plugin depends on
@@ -54,28 +54,17 @@ A plugin that adds a generic mechanism for rating domain objects.
 					'static' {
 						listOrderByAverageRating { Map params = [:] ->
 							if(params==null) params =[:]
-							def max = params.max ? params.max.toInteger() : 10
-							def offset = params.offset ? params.offset.toInteger(): 0
-							params.remove('offset')
-							params.remove('max')
 							def clazz = delegate
 							def type = GrailsNameUtils.getPropertyName(clazz)
 							if(params.cache==null) params.cache=true
-							def results = clazz.executeQuery("select r.ratingRef, avg(rating.stars) from RatingLink as r join r.rating rating where r.type='$type' group by r.ratingRef", [cache:true])
-							results = results.sort { it[1] }.reverse()
-							def queryList
-							def i = (max+offset)
-							if(results.size() >= i) {
-								queryList = results[offset..<i].collect{ it[0]}
+							def results = clazz.executeQuery("select r.ratingRef,avg(rating.stars),count(rating.stars) as c from RatingLink as r join r.rating rating where r.type='$type' group by r.ratingRef order by count(rating.stars) desc ,avg(rating.stars) desc", params)
+							def instances = clazz.withCriteria {  
+								inList 'id', results.collect { it[0] } 
+								cache params.cache
 							}
-							else {
-								queryList = results[offset..-1].collect { it[0] }
-							}
-							clazz.findAllByIdInList( queryList, params).sort { rated ->
-								def entry = results.find { it[0] == rated.id } 
-								entry[1]
-							}.reverse()
+							results.collect {  r-> instances.find { i -> r[0] == i.id } }							
 						}
+
 						countRated {->
 							def clazz = delegate
 							RatingLink.createCriteria().get {

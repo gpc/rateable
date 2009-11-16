@@ -9,9 +9,8 @@ class RateableTagLib {
     def resources = {attrs ->
         out << yui.javascript(dir: 'yahoo-dom-event', file: 'yahoo-dom-event.js')
         out << yui.javascript(dir: 'connection', file: 'connection.js')
-        out << yui.stylesheet(dir: 'yahoo-dom-event', file: 'yahoo-dom-event.js')
         out << """
-        <script src=\"${createLinkTo(dir: pluginContextPath + '/js', file: 'ratings.js')}\"></script>
+        <script type=\"text/javascript\" src=\"${resource(dir: pluginContextPath + '/js', file: 'ratings.js')}\"></script>
         <link rel=\"stylesheet\" href=\"${createLinkTo(dir: pluginContextPath + '/css', file: 'ratings.css')}\" />
         """
     }
@@ -44,23 +43,23 @@ class RateableTagLib {
                 </tr>
             </table>
             """
-        } else {
+        } else { // Rating is active
             out << """
-            <div id="${id}div">
-                <form id="${id}" action="${createLink(controller: 'rateable', action: 'rate', id: bean.id, params: [type: type, xhr: true])}" method="post" title="${bean.averageRating}">
-                    <label for="id_rating">Rating:</label>
-                    <select name="${id}" id="id_${id}">
+            <div id="${id}_rating" class="star_rating">
+                <form id="${id}_form" class="star_rating" action="${resource(controller: 'rateable', action: 'rate', id: bean.id, params: [type: type, xhr: true])}" method="post" title="${average}">
+                    <label for="${id}_select">Rating:</label>
+                    <select name="rating" id="${id}_select">
                         <option value="1">1 - Poor</option>
                         <option value="2">2 - Fair</option>
                         <option value="3">3 - Good</option>
                         <option value="4">4 - Very Good</option>
                         <option value="5">5 - Excellent</option>
                     </select>
-                    <input id='ratingIsActive' type="hidden" value="true"/>
-                    <input type="submit" value=" Submit rating"/>
+                    <input id="${id}_active" name='active' type="hidden" value="true"/>
+                    <input type="submit" value="Submit Rating"/>
                 </form>
             </div>
-            <div id='notifytext'>(${bean.totalRatings} Ratings)</div>
+            <div id='${id}_notifytext'>(${votes ?: 0} Ratings)</div>
             """
         }
     }

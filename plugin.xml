@@ -1,6 +1,6 @@
-<plugin name='rateable' version='0.5' grailsVersion='1.1 &gt; *'>
+<plugin name='rateable' version='0.6.1' grailsVersion='1.1 &gt; *'>
   <author>Matthew Taylor</author>
-  <authorEmail>matt.taylor@springsource.com</authorEmail>
+  <authorEmail>matthew@g2one.com</authorEmail>
   <title>Rateable Plugin</title>
   <description>\
 A plugin that adds a generic mechanism for rating domain objects.
@@ -8,6 +8,7 @@ A plugin that adds a generic mechanism for rating domain objects.
   <documentation>http://grails.org/plugin/rateable</documentation>
   <resources>
     <resource>DataSource</resource>
+    <resource>UrlMappings</resource>
     <resource>org.grails.rateable.RateableController</resource>
     <resource>org.grails.rateable.Rating</resource>
     <resource>org.grails.rateable.RatingLink</resource>
@@ -18,6 +19,7 @@ A plugin that adds a generic mechanism for rating domain objects.
   <dependencies>
     <plugin name='hibernate' version='1.1 &gt; *' />
     <plugin name='yui' version='2.7.0.1 &gt; *' />
+    <resolvers />
   </dependencies>
   <behavior>
     <method name='rate' artefact='Domain' type='org.grails.rateable.TestDomain'>

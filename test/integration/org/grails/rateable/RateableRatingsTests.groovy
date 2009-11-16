@@ -19,6 +19,7 @@ class RateableRatingsTests extends GroovyTestCase {
 		
 		assertEquals 3, test.averageRating
 		assertEquals 1.5, stuff.averageRating
+		assertEquals 2, TestDomain.countRated
 	}
 	
 	/*
