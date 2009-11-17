@@ -28,14 +28,15 @@ class RateableTagLib {
             <table class="ratingDisplay">
                 <tr>
             """
+			def href = attrs.href ? "href=\"${attrs.href}\"" : ''
             5.times {cnt ->
                 def i = cnt + 1
                 if (average >= i) {
-                    out << '<td><div class="star on"><a></a></div></td>'
+                    out << """<td><div class="star on"><a $href></a></div></td>"""
                 } else {
                     def starWidth = 100 * (average - (i - 1))
                     if (starWidth < 0) starWidth = 0
-                    out << """<td><div class="star on"><a style="width:${starWidth}%"></a></div></td>"""
+                    out << """<td><div class="star on"><a $href style="width:${starWidth}%"></a></div></td>"""
                 }
             }
             out << """
@@ -46,7 +47,7 @@ class RateableTagLib {
         } else { // Rating is active
             out << """
             <div id="${id}_rating" class="star_rating">
-                <form id="${id}_form" class="star_rating" action="${resource(controller: 'rateable', action: 'rate', id: bean.id, params: [type: type, xhr: true])}" method="post" title="${average}">
+                <form id="${id}_form" class="star_rating" action="${createLink(controller: 'rateable', action: 'rate', id: bean.id, params: [type: type, xhr: true])}" method="post" title="${average}">
                     <label for="${id}_select">Rating:</label>
                     <select name="rating" id="${id}_select">
                         <option value="1">1 - Poor</option>
