@@ -16,13 +16,9 @@
  import grails.util.*
  
  class RateableGrailsPlugin {
-    // the plugin version
-    def version = "0.6.2"
-    // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "1.1 > *"
-    // the other plugins this plugin depends on
-    def dependsOn = [hibernate:"1.1 > *", yui:"2.7.0.1 > *"]
-    // resources that are excluded from plugin packaging
+    def version = "0.7.0"
+    def grailsVersion = "1.2 > *"
+    def dependsOn = [:]
     def pluginExcludes = [
             "grails-app/views/error.gsp"
     ]
@@ -30,12 +26,14 @@
     def author = "Matthew Taylor"
     def authorEmail = "matthew@g2one.com"
     def title = "Rateable Plugin"
-    def description = '''\\
-A plugin that adds a generic mechanism for rating domain objects.
-'''
+    def description = "A plugin that adds a generic mechanism for rating domain objects."
 
     // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/rateable"
+
+    def license = "APACHE"
+    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPRATEABLE" ]
+    def scm = [ url: "http://svn.codehaus.org/grails-plugins/grails-rateable/" ]
 
     def doWithSpring = {
         def config = application.config
