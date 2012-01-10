@@ -1,0 +1,33 @@
+<plugin name='rateable' version='0.7.1' grailsVersion='1.2 &gt; *'>
+  <author>Matthew Taylor</author>
+  <authorEmail>matthew@g2one.com</authorEmail>
+  <title>Rateable Plugin</title>
+  <description>A plugin that adds a generic mechanism for rating domain objects.</description>
+  <documentation>http://grails.org/plugin/rateable</documentation>
+  <type>RateableGrailsPlugin</type>
+  <resources>
+    <resource>RateablePluginResources</resource>
+    <resource>org.grails.rateable.RateableController</resource>
+    <resource>org.grails.rateable.Rating</resource>
+    <resource>org.grails.rateable.RatingLink</resource>
+    <resource>org.grails.rateable.TestDomain</resource>
+    <resource>org.grails.rateable.TestRater</resource>
+    <resource>org.grails.rateable.RateableTagLib</resource>
+  </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://plugins.grails.org' />
+    <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='grailsCore' url='http://svn.codehaus.org/grails/trunk/grails-plugins' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+    <repository name='http://localhost:8081/artifactory/plugins-releases-local' url='http://localhost:8081/artifactory/plugins-releases-local/' />
+  </repositories>
+  <dependencies />
+  <plugins>
+    <runtime>
+      <plugin group='org.grails.plugins' name='yui' version='2.8.2' />
+    </runtime>
+  </plugins>
+  <runtimePluginRequirements />
+  <behavior />
+</plugin>
