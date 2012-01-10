@@ -16,7 +16,7 @@
  import grails.util.*
  
  class RateableGrailsPlugin {
-    def version = "0.7.0"
+    def version = "0.7.1"
     def grailsVersion = "1.2 > *"
     def dependsOn = [:]
     def pluginExcludes = [
