@@ -16,7 +16,7 @@
  import grails.util.*
  
  class RateableGrailsPlugin {
-    def version = "0.7.1"
+    def version = "1.0.BUILD-SNAPSHOT"
     def grailsVersion = "1.2 > *"
     def dependsOn = [:]
     def pluginExcludes = [
@@ -33,7 +33,7 @@
 
     def license = "APACHE"
     def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPRATEABLE" ]
-    def scm = [ url: "http://svn.codehaus.org/grails-plugins/grails-rateable/" ]
+    def scm = [ url: "https://github.com/gpc/grails-rateable" ]
 
     def doWithSpring = {
         def config = application.config
