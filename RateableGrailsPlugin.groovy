@@ -16,8 +16,8 @@
  import grails.util.*
  
  class RateableGrailsPlugin {
-    def version = "1.0.BUILD-SNAPSHOT"
-    def grailsVersion = "1.2 > *"
+    def version = "0.8.0-SNAPSHOT"
+    def grailsVersion = "2.3 > *"
     def dependsOn = [:]
     def pluginExcludes = [
             "grails-app/views/error.gsp"
