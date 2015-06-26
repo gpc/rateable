@@ -30,7 +30,7 @@ Implement the @Rateable@ trait:
      class Vehicle implements Rateable {
      }
 
-On your page load the rateable resources (not jQuery is a require dependency):
+On your page load the rateable resources (note that jQuery is a required dependency):
 
      <asset:stylesheet href="ratings.css"/>
      <asset:javascript src="ratings.js"/>
