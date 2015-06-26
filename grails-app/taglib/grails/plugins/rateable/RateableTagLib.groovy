@@ -16,10 +16,10 @@ class RateableTagLib {
 		def id = attrs.id ?: "rating"
 
         if (attrs.active == 'false') {
-            out << g.render(template:'/rateable/ratingWidget', model:[average: average, votes: votes, type:type, id: id])
+            out << g.render(template:'/rateable/ratingWidget', model:[bean: bean, average: average, votes: votes, type:type, id: id])
 
         } else { // Rating is active
-            out << g.render(template:'/rateable/ratingWidget', model:[average: average, votes: votes, type:type, id: id])
+            out << g.render(template:'/rateable/ratingWidget', model:[bean: bean, average: average, votes: votes, type:type, id: id])
         }
     }
 }

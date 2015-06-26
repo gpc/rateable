@@ -1,7 +1,21 @@
 //= require jquery
 //= require_self
 
-$.each($('.rating'), function( index, value ) {
-  alert( index + ": " + value );
-});
+$( document ).ready( function() {
+	$.each($('fieldset label.star'), function( index, value ) {
+	  	value.onclick = function( event) {
+	  		var label = $( event.target )
+	  		var form = label.closest('form')
+			$.ajax( {
+		      type: "POST",
+		      url: form.attr( 'action' ),
+		      data: form.serialize(),
+		      success: function( response ) {
+		        console.log( response );
+		      }
+		    } );
+	  	}
+	});	
+})
+
 
