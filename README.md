@@ -14,61 +14,52 @@ This plugin provides allows ratings to be attached to domain objects, as well as
 ## Installation
 
 Add the following to `build.gradle`:
-{code}
-compile 'org.grails.plugins:rateable:2.0.0-SNAPSHOT'
-{code}
+
+     compile 'org.grails.plugins:rateable:2.0.0-SNAPSHOT'
+
 
 ## Usage
 
 Implement the @Rateable@ trait:
 
-{code}
-import grails.plugins.rateable.*
 
-class Vehicle implements Rateable {
-}
-{code}
+     import grails.plugins.rateable.*
+     
+     class Vehicle implements Rateable {
+     }
 
 On your page load the rateable resources:
 
-{code}
-<rateable:resources/>
-{code}
+     <asset:stylesheet href="ratings.css"/>
+     <asset:javascript src="ratings.js"/>
 
 Include a tag to allow users to rate:
 
-{code}
-<rateable:ratings bean='${myVehicle}'/>
-{code}
-
+     <rateable:ratings bean='${myVehicle}'/>
 
 You may need to define a rater evaluator in grails-app/conf/application.groovy. The default one looks like:
 
-{code}
-grails.rateable.rater.evaluator = { request.user }
-{code}
+     grails.rateable.rater.evaluator = { request.user }
 
 But if you store users in the session instead you may want this to be:
 
-{code}
-grails.rateable.rater.evaluatorr = { session.user }
-{code}
+     grails.rateable.rater.evaluatorr = { session.user }
 
 The plugin also adds some useful static methods and properties to each `Rateable` as defined below:
 
-h5. Static Methods
+### Static Methods
 
 * *listOrderByAverageRating* - lists all rated items by their average rating. Takes an optional Map parameter for pagination
 * *countRated* -  Counts the number of rated items, good for pagination in combination with the above method.
 * *topRated* -  The top rated item
 
-h5. Properties
+### Properties
 
 * *ratings* - Returns all the ratings for a given Rateable
 * *averageRating* -  Returns the average rating of all the ratings
 * *totalRatings* - Returns the total number of ratings given to the Rateable
 
-h5. Methods 
+### Methods 
 
 * *rate(user, Double rating)* - Rates a Rateable for the given user and specified rating
 * *userRating(user)* - Returns the rating for the specified user
