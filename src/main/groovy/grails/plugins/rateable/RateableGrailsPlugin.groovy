@@ -20,7 +20,7 @@ package grails.plugins.rateable
  
  class RateableGrailsPlugin extends Plugin {
 
-    def grailsVersion = "3.0 > *"
+    def grailsVersion = "3.2 > *"
     def dependsOn = [:]
     def pluginExcludes = [
             "grails-app/views/error.gsp",
