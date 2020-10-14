@@ -15,6 +15,7 @@ buildscript {
 apply plugin: 'maven'
 apply plugin:"io.spring.dependency-management"
 apply plugin: "com.jfrog.bintray"
+apply plugin: "com.bertramlabs.asset-pipeline"
 
 version "4.0.0-SNAPSHOT"
 group "org.grails.plugins"
@@ -60,6 +61,7 @@ dependencies {
     provided "org.grails.plugins:hibernate5"
     provided "org.hibernate:hibernate-ehcache"
     provided "org.grails:grails-dependencies"
+    provided "org.grails:grails-plugin-services"
     provided 'javax.servlet:javax.servlet-api:3.1.0'
 
     runtime "org.apache.tomcat:tomcat-jdbc"
@@ -67,6 +69,10 @@ dependencies {
     testCompile "org.grails:grails-gorm-testing-support"
     
     console "org.grails:grails-console"
+}
+
+assets {
+    packagePlugin = true
 }
 
 jar {
