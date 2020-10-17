@@ -14,7 +14,8 @@
  */
 package grails.plugins.rateable
 
-import grails.util.*
+
+import grails.util.GrailsNameUtils
 
 /**
  * Trait to make a domain class rateable
@@ -127,7 +128,7 @@ trait Rateable {
 		def clazz = this
 		def type = GrailsNameUtils.getPropertyName(clazz)
 		if(params.cache==null) params.cache=true
-		def results = clazz.executeQuery("select r.ratingRef,avg(rating.stars),count(rating.stars) as c from RatingLink as r join r.rating rating where r.type='$type' group by r.ratingRef order by count(rating.stars) desc ,avg(rating.stars) desc", params)
+		def results = clazz.executeQuery("select r.ratingRef,avg(rating.stars),count(rating.stars) as c from RatingLink as r join r.rating rating where r.type='$type' group by r.ratingRef order by count(rating.stars) desc ,avg(rating.stars) desc".toString(), params)
 		def criteria = clazz.createCriteria()
 		def instances = criteria.list {  
 			criteria.inList 'id', results.collect { it[0] } 
@@ -141,7 +142,7 @@ trait Rateable {
         def clazz = this
         def type = GrailsNameUtils.getPropertyName(clazz)
         if(params.cache==null) params.cache=true
-        def results = clazz.executeQuery("select r.ratingRef,avg(rating.stars),count(rating.stars) as c from RatingLink as r join r.rating rating where r.type='$type' group by r.ratingRef order by count(rating.stars) desc ,avg(rating.stars) desc", params)
+        def results = clazz.executeQuery("select r.ratingRef,avg(rating.stars),count(rating.stars) as c from RatingLink as r join r.rating rating where r.type='$type' group by r.ratingRef order by count(rating.stars) desc ,avg(rating.stars) desc".toString(), params)
         return get(results[0][0])
     }    
 

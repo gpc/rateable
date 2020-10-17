@@ -1,17 +1,17 @@
 package grails.plugins.rateable
 
-import static org.junit.Assert.*
-import grails.test.mixin.TestMixin
-import grails.test.mixin.integration.IntegrationTestMixin
-import grails.transaction.*
-import org.junit.Before
+import grails.gorm.transactions.Rollback
+import grails.testing.mixin.integration.Integration
+import spock.lang.Specification
 
-@TestMixin(IntegrationTestMixin)
+import static org.junit.Assert.assertEquals
+
 @Rollback
-class RateableRatingsTests {
+@Integration
+class RateableRatingsTests extends Specification {
 
-	
 	void testAverageRating() {
+		when:
 		def r1 = new TestRater(name:"fred").save()
 		def r2 = new TestRater(name:"bob").save()		
 		
@@ -24,14 +24,15 @@ class RateableRatingsTests {
 		stuff.save()
 		stuff.rate(r1, 1)
 		     .rate(r2, 2)
-		
+
+		then:
 		assert 3 == test.averageRating
 		assert 1.5 == stuff.averageRating
-		assert 2, TestDomain.countRated
+		assert 2, TestDomain.countRated()
 	}
 	
 	void testGetTopRated() {
-		
+		when:
 		def r1 = new TestRater(name:"fred").save()
 		def r2 = new TestRater(name:"bob").save()		
 		def r3 = new TestRater(name:"jack").save()
@@ -83,6 +84,7 @@ class RateableRatingsTests {
 		def topRated = TestDomain.listOrderByAverageRating()	
 		
 		println topRated
+		then:
 		assertEquals "iphone", topRated[0].name
 		assertEquals "pre", topRated[1].name
 		assertEquals "gone", topRated[2].name

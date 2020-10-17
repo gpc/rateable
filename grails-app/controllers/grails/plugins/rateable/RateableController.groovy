@@ -1,15 +1,13 @@
 package grails.plugins.rateable
 
-import grails.util.*
-import grails.core.support.*
-import grails.core.*
-import javax.annotation.*
 
-class RateableController implements GrailsApplicationAware {
+import javax.annotation.PostConstruct
+
+class RateableController  {
     
     private Closure evaluator
 
-    GrailsApplication grailsApplication
+    RateableService rateableService
 
     @PostConstruct
     void init() {
@@ -19,29 +17,11 @@ class RateableController implements GrailsApplicationAware {
     def rate() {
         def rater = evaluateRater()
 
-        // for an existing rating, update it
-        def rating = RatingLink.createCriteria().get {
-            createAlias("rating", "r")
-            projections {
-                property "rating"
-            }
-            eq "ratingRef", params.id.toLong()
-            eq "type", params.type
-            eq "r.raterId", rater.id.toLong()
-            cache true
-        }
-        if (rating) {
-            rating.stars = params.rating.toDouble()
-            assert rating.save()
-        }
-        // create a new one otherwise
-        else {
-            // create Rating
-            rating = new Rating(stars: params.rating, raterId: rater.id, raterClass: rater.class.name)
-            assert rating.save()
-            def link = new RatingLink(rating: rating, ratingRef: params.id, type: params.type)
-            assert link.save()
-        }
+        Long ratingRef = params.id.toLong()
+        Long raterId = rater.id.toLong()
+        String type = params.type
+        Double stars = params.rating.toDouble()
+        rateableService.saveRating(ratingRef, type, raterId, stars, rater.class.name)
 
         def allRatings = RatingLink.withCriteria {
             projections {
@@ -115,7 +95,7 @@ class RateableController implements GrailsApplicationAware {
 
 
     //     pre.save()
-    //     pre.rate(r1, 4)
+    //  3   pre.rate(r1, 4)
     //         .rate(r2, 3)        
     //         .rate(r3, 4)        
     //         .rate(r4, 5)        
